@@ -1,5 +1,6 @@
 package co.edu.javeriana.pedisoft.usermanager.controller;
 
+import co.edu.javeriana.pedisoft.usermanager.entity.StatusInfo;
 import co.edu.javeriana.pedisoft.usermanager.entity.User;
 import co.edu.javeriana.pedisoft.usermanager.entity.UserDeleteRequest;
 import co.edu.javeriana.pedisoft.usermanager.service.UserService;
@@ -21,16 +22,16 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    @ResponseBody public ResponseEntity<String> addUser(@Valid @RequestBody User user){
+    public StatusInfo addUser(@Valid @RequestBody User user){
         userService.addUser(user);
-        return ResponseEntity.ok("User created");
+        return new StatusInfo("User created");
     }
 
     @DeleteMapping
-    @ResponseBody public ResponseEntity<String> deleteUser(@AuthenticationPrincipal @NonNull Jwt jwt,
+    public StatusInfo deleteUser(@AuthenticationPrincipal @NonNull Jwt jwt,
                                                            @Valid @RequestBody UserDeleteRequest body){
         userService.deleteUser(jwt, body.getUsername());
-        return ResponseEntity.ok("Deleted");
+        return new StatusInfo("User Deleted");
     }
 
 }
