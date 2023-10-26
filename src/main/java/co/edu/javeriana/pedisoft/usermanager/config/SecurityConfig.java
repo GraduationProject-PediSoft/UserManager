@@ -27,7 +27,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oAuth2 -> oAuth2
-                        .jwt(it -> it.decoder(JwtDecoders.fromIssuerLocation(issuer.getIssuer_url()))))
+                        .jwt(it -> it.jwkSetUri(issuer.getJwks_url()))
+                )
                 .build();
     }
 

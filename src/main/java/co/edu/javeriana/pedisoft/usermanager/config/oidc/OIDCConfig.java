@@ -14,5 +14,5 @@ public class OIDCConfig {
     private String client_secret;
     private String token_url;
     private String logout_url;
-    private String issuer_url;
+    private String jwks_url;
 }
