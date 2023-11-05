@@ -5,6 +5,9 @@ import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+/**
+ * Data class containing OIDC configuration
+ */
 @Getter
 @Setter
 @ConfigurationProperties(prefix = "oidc")

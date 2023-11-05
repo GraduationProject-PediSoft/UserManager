@@ -30,8 +30,11 @@ public class OIDCService {
     private static final ParameterizedTypeReference<Map<String, String>> KEY_VALUE = new ParameterizedTypeReference<>() {
     };
 
-
-
+    /**
+     * Logins de user into the system
+     * @param userLogin User login request
+     * @return OIDC entity with access_token refresh_token etc
+     */
     public Map<String, String> login(@NonNull LoginRequest userLogin){
         val data = new LinkedMultiValueMap<String, String>();
 
@@ -66,6 +69,11 @@ public class OIDCService {
         }
     }
 
+    /**
+     * Refresh token
+     * @param token OIDC refresh token
+     * @return new Access_token for the system requests
+     */
     public Map<String, String> refreshToken(String token)  {
         val requestParams = new LinkedMultiValueMap<String, String>();
         requestParams.add("client_id", oidcConfig.getClient_id());
@@ -97,6 +105,12 @@ public class OIDCService {
 
     }
 
+    /**
+     * Logouts from the system
+     * @param logoutRequest Logout request entity with the refresh token
+     * @return Status request from the keycloak server
+     * @apiNote  The token will be still valid until it expires. This is intended in the JWT design
+     */
     public Map<String, String> logout(@NonNull RefreshTokenRequest logoutRequest){
         val requestParams = new LinkedMultiValueMap<String, String>();
         requestParams.add("client_id", oidcConfig.getClient_id());

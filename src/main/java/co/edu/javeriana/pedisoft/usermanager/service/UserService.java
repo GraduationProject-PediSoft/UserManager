@@ -27,6 +27,10 @@ public class UserService {
     @Autowired
     private KeycloakConfigHolder keycloakConfig;
 
+    /**
+     * Register user in the system
+     * @param user User entity with the new user info
+     */
     public void addUser(@NonNull User user){
 
         val credentials = new CredentialRepresentation();
@@ -47,7 +51,12 @@ public class UserService {
         }
     }
 
-
+    /**
+     * Delete user
+     * @param jwt The jwt token which is used to extract the username from the request
+     * @param username The username that represents the user to delete, in cannot be the same as the extracted
+     *                 in the jwt because it will throw 400 status code
+     */
     public void deleteUser(Jwt jwt, String username) {
         @NonNull val actualUsername = (String) jwt.getClaims().get("preferred_username");
         if(Objects.equals(actualUsername, username)){

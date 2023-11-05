@@ -7,11 +7,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Keycloak instance configuration
+ */
 @Configuration
 public class KeycloakConfig {
     @Autowired
     KeycloakConfigHolder keycloakConfigHolder;
 
+    /**
+     * Creates the bean for the instantiation of the Keycloak connection
+     * @return A Keycloak instance
+     */
     @Bean
     public Keycloak keycloak() {
         return KeycloakBuilder.builder()
