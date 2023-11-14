@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  user-manager:
+    build: .
+    hostname: usermanager
+    networks:
+      - tesis
+    environment:
+      KEYCLOAK_URL: ${KEYCLOAK_URL}
+      KEYCLOAK_REALM: ${KEYCLOAK_REALM}
+      CLIENT_ID: ${CLIENT_ID}
+      CLIENT_SECRET: ${CLIENT_SECRET}
+      TOKEN_URL: ${TOKEN_URL}
+      LOGOUT_URL: ${LOGOUT_URL}
+      ISSUER_URL: ${ISSUER_URL}
+    ports:
+      - "18000:8080"
+
+  db:
+    image: postgres:latest
+    restart: always
+    hostname: postgres
+    environment:
+      POSTGRES_AUTH_METHOD: trust
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: keycloak_db
+    networks:
+      - tesis
+
+  keycloak:
+    image: keycloak/keycloak:20.0.5
+    restart: always
+    hostname: keycloak
+    environment:
+      DB_VENDOR: POSTGRES
+      DB_ADDR: db
+      DB_SCHEMA: public
+      DB_DATABASE: keycloak_db
+      DB_USER: admin
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KEYCLOAK_HOSTNAME: keycloak
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_PASSWORD}
+    networks:
+      - tesis
+    ports:
+      - "17000:8080"
+    command:
+      - start-dev
+networks:
+  tesis:
+    driver: bridge
+    external: true
